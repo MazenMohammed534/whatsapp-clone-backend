@@ -55,34 +55,34 @@ Real-time actions are managed through a centralized socket handler:
 ```mermaid
 sequenceDiagram
     autonumber
-    actor Alice as Alice (Client A)
+    actor ClientA as (Client A)
     participant Server as Socket.io Server
-    actor Bob as Bob (Client B)
+    actor ClientB as (Client B)
     
-    Note over Alice, Server: Connection Setup
-    Alice->>Server: join(userId)
-    Server-->>Server: Add Alice to online list
-    Server->>Bob: get-online-users (updated list)
-    Server->>Alice: setup socket (socketId)
+    Note over ClientA, Server: Connection Setup
+    ClientA->>Server: join(userId)
+    Server-->>Server: Add ClientA to online list
+    Server->>ClientB: get-online-users (updated list)
+    Server->>ClientA: setup socket (socketId)
 
-    Note over Alice, Bob: Real-time Communication
-    Alice->>Server: typing(conversationId)
-    Server->>Bob: typing(conversationId)
+    Note over ClientA, ClientB: Real-time Communication
+    ClientA->>Server: typing(conversationId)
+    Server->>ClientB: typing(conversationId)
     
-    Alice->>Server: send message(messageData)
-    Server->>Bob: receive message(messageData)
+    ClientA->>Server: send message(messageData)
+    Server->>ClientB: receive message(messageData)
     
-    Alice->>Server: stop typing(conversationId)
-    Server->>Bob: stop typing()
+    ClientA->>Server: stop typing(conversationId)
+    Server->>ClientB: stop typing()
 
-    Note over Alice, Bob: WebRTC Call Flow
-    Alice->>Server: call user (to Bob, signal, from, name)
-    Server->>Bob: call user (signal, from, name)
-    Bob->>Server: answer call (to Alice, signal)
-    Server->>Alice: call accepted (signal)
+    Note over ClientA, ClientB: WebRTC Call Flow
+    ClientA->>Server: call user (to ClientB, signal, from, name)
+    Server->>ClientB: call user (signal, from, name)
+    ClientB->>Server: answer call (to ClientA, signal)
+    Server->>ClientA: call accepted (signal)
     
-    Alice->>Server: end call (room ID)
-    Server->>Bob: end call()
+    ClientA->>Server: end call (room ID)
+    Server->>ClientB: end call()
 ```
 
 ---
