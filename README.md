@@ -1,4 +1,4 @@
-# 💬 WhatsApp Clone (Backend Server)
+# WhatsApp Clone (Backend Server)
 
 [![NodeJS](https://img.shields.io/badge/Node.js-v18+-6DA55F?logo=node.js&logoColor=white)](https://nodejs.org/)
 [![Express](https://img.shields.io/badge/Express-v4.18-000000?logo=express&logoColor=white)](https://expressjs.com/)
@@ -10,28 +10,28 @@ A robust, real-time backend engine powering a WhatsApp Web application. This ser
 
 ---
 
-## 🏗️ System Architecture
+## System Architecture
 
-The server adopts a clean MERN-stack backend architecture separating concerns into **Routes**, **Controllers**, **Services**, **Models**, and **Middleware** layers.
+The server adopts a clean MERN-stack backend architecture separating concerns into Routes, Controllers, Services, Models, and Middleware layers.
 
 ```mermaid
 graph TD
-    Client["📱 Frontend Client (React/Next.js)"]
+    Client["Frontend Client (React/Next.js)"]
     
-    subgraph ExpressApp ["🚀 Express.js Server"]
-        Router["🛣️ Router Layer (/api/v1)"]
-        Controllers["🕹️ Controllers (Request Handlers)"]
-        Services["🧠 Services (Business Logic)"]
-        Middlewares["🛡️ Middlewares (Auth, Errors, Uploads)"]
+    subgraph ExpressApp ["Express.js Server"]
+        Router["Router Layer (/api/v1)"]
+        Controllers["Controllers (Request Handlers)"]
+        Services["Services (Business Logic)"]
+        Middlewares["Middlewares (Auth, Errors, Uploads)"]
     end
     
-    subgraph Sockets ["⚡ Socket.io Server (Real-time)"]
-        SocketServer["🔌 Socket Events Handler"]
+    subgraph Sockets ["Socket.io Server (Real-time)"]
+        SocketServer["Socket Events Handler"]
     end
     
-    subgraph Data ["🗄️ Database Layer"]
-        Mongoose["🍃 Mongoose ODM"]
-        MongoDB[("🟢 MongoDB Database")]
+    subgraph Data ["Database Layer"]
+        Mongoose["Mongoose ODM"]
+        MongoDB[("MongoDB Database")]
     end
     
     Client -->|REST APIs| Router
@@ -48,7 +48,7 @@ graph TD
 
 ---
 
-## ⚡ Socket.io Real-time Event Flow
+## Socket.io Real-time Event Flow
 
 Real-time actions are managed through a centralized socket handler:
 
@@ -87,7 +87,7 @@ sequenceDiagram
 
 ---
 
-## 🗄️ Database Entity Relationship Diagram (ERD)
+## Database Entity Relationship Diagram (ERD)
 
 The application models its schema relationships as follows:
 
@@ -134,58 +134,58 @@ erDiagram
 
 ---
 
-## 🚀 Key Features
+## Key Features
 
-*   **🔒 Secure Authentication**: JSON Web Tokens (JWT) for session management and token verification. Hashed password storage with `bcrypt`.
-*   **⚡ Real-Time Synchronization**: Instantly sync messages, active/offline status, and live typing indicators.
-*   **📞 Audio/Video Signaling**: WebRTC handshake signaling facilitated over WebSockets for seamless peer-to-peer calling.
-*   **📁 File & Media Uploads**: Safe handling of multi-media payloads (images, documents, audio) with native unique file suffix naming.
-*   **🛡️ Production-Grade Protection**: Includes standard security filters such as cross-origin resource isolation (`helmet`), NoSQL injection prevention (`express-mongo-sanitize`), CORS restrictions, request trimming, and response compression.
-*   **📝 Robust Logging**: Integrated logging suite powered by `winston` for error debugging and terminal information.
-
----
-
-## 🛣️ API Endpoints
-
-### 🔑 Authentication Routes (`/api/v1/auth`)
-
-| Method | Endpoint | Description | Protected |
-| :--- | :--- | :--- | :---: |
-| `POST` | `/register` | Register a new user profile | ❌ |
-| `POST` | `/login` | User authentication & retrieve tokens | ❌ |
-| `POST` | `/logout` | Invalidate current session tokens | ❌ |
-| `POST` | `/refreshtoken` | Exchange expired token for a new active token | ❌ |
-
-### 👥 User Routes (`/api/v1/user`)
-
-| Method | Endpoint | Description | Protected |
-| :--- | :--- | :--- | :---: |
-| `GET` | `?search=query` | Find users by name or email |  |
-
-### 💬 Conversation Routes (`/api/v1/conversation`)
-
-| Method | Endpoint | Description | Protected |
-| :--- | :--- | :--- | :---: |
-| `POST` | `/` | Open direct message or create group |  |
-| `GET` | `/` | Fetch all conversations user is a part of |  |
-| `POST` | `/group` | Create a new group chat room |  |
-
-### ✉️ Message Routes (`/api/v1/message`)
-
-| Method | Endpoint | Description | Protected |
-| :--- | :--- | :--- | :---: |
-| `POST` | `/` | Send a new message to a conversation |  |
-| `GET` | `/:convo_id` | Fetch all message history for a specific room |  |
-
-### 📁 Upload Routes (`/api/v1/upload`)
-
-| Method | Endpoint | Description | Protected |
-| :--- | :--- | :--- | :---: |
-| `POST` | `/` | Upload a file / media asset |  |
+*   **Secure Authentication**: JSON Web Tokens (JWT) for session management and token verification. Hashed password storage with `bcrypt`.
+*   **Real-Time Synchronization**: Instantly sync messages, active/offline status, and live typing indicators.
+*   **Audio/Video Signaling**: WebRTC handshake signaling facilitated over WebSockets for seamless peer-to-peer calling.
+*   **File & Media Uploads**: Safe handling of multi-media payloads (images, documents, audio) with native unique file suffix naming.
+*   **Production-Grade Protection**: Includes standard security filters such as cross-origin resource isolation (`helmet`), NoSQL injection prevention (`express-mongo-sanitize`), CORS restrictions, request trimming, and response compression.
+*   **Robust Logging**: Integrated logging suite powered by `winston` for error debugging and terminal information.
 
 ---
 
-## ⚙️ Environment Variables Setup
+## API Endpoints
+
+### Authentication Routes (`/api/v1/auth`)
+
+| Method | Endpoint | Description | Protected |
+| :--- | :--- | :--- | :---: |
+| `POST` | `/register` | Register a new user profile | No |
+| `POST` | `/login` | User authentication & retrieve tokens | No |
+| `POST` | `/logout` | Invalidate current session tokens | No |
+| `POST` | `/refreshtoken` | Exchange expired token for a new active token | No |
+
+### User Routes (`/api/v1/user`)
+
+| Method | Endpoint | Description | Protected |
+| :--- | :--- | :--- | :---: |
+| `GET` | `?search=query` | Find users by name or email | Yes |
+
+### Conversation Routes (`/api/v1/conversation`)
+
+| Method | Endpoint | Description | Protected |
+| :--- | :--- | :--- | :---: |
+| `POST` | `/` | Open direct message or create group | Yes |
+| `GET` | `/` | Fetch all conversations user is a part of | Yes |
+| `POST` | `/group` | Create a new group chat room | Yes |
+
+### Message Routes (`/api/v1/message`)
+
+| Method | Endpoint | Description | Protected |
+| :--- | :--- | :--- | :---: |
+| `POST` | `/` | Send a new message to a conversation | Yes |
+| `GET` | `/:convo_id` | Fetch all message history for a specific room | Yes |
+
+### Upload Routes (`/api/v1/upload`)
+
+| Method | Endpoint | Description | Protected |
+| :--- | :--- | :--- | :---: |
+| `POST` | `/` | Upload a file / media asset | Yes |
+
+---
+
+## Environment Variables Setup
 
 Create a `.env` file in the root directory and configure the variables accordingly:
 
@@ -215,15 +215,15 @@ DEFAULT_GROUP_PICTURE=https://res.cloudinary.com/example/default_group_pic.png
 
 ---
 
-## 🛠️ Getting Started
+## Getting Started
 
-### 📋 Prerequisites
+### Prerequisites
 
-*   [NodeJS](https://nodejs.org/en) (v18 or higher recommended)
-*   [Yarn](https://yarnpkg.com/) or [NPM](https://www.npmjs.com/)
-*   [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) or a local MongoDB database
+*   NodeJS (v18 or higher recommended)
+*   Yarn or NPM
+*   MongoDB Atlas or a local MongoDB database
 
-### ⚡ Installation
+### Installation
 
 1. **Clone the repository:**
    ```bash
@@ -257,24 +257,24 @@ DEFAULT_GROUP_PICTURE=https://res.cloudinary.com/example/default_group_pic.png
 
 ---
 
-## 📂 Project Directory Structure
+## Project Directory Structure
 
 ```text
-📁 whatsapp-clone-backend
-├── 📁 public/                 # Static asset server directory
-│   └── 📁 uploads/            # Files uploaded by clients
-├── 📁 src/
-│   ├── 📁 configs/            # Application settings (e.g. logger)
-│   ├── 📁 controllers/        # Request handlers
-│   ├── 📁 middlewares/        # Express custom middlewares (Auth, Errors)
-│   ├── 📁 models/             # Mongoose schemas (User, Conversation, Message)
-│   ├── 📁 routes/             # REST route routing
-│   ├── 📁 services/           # Service-level query logic
-│   ├── 📁 utils/              # Helper utility functions
-│   ├── 📄 app.js              # Express configuration & setup
-│   ├── 📄 index.js            # Main entry point (HTTP & Sockets)
-│   └── 📄 SocketServer.js     # Real-time WebSocket connection engine
-├── 📄 .env                    # Secrets & local config values
-├── 📄 package.json            # Project dependencies and runs
-└── 📄 README.md               # Documentation guide
+whatsapp-clone-backend
+├── public/                 # Static asset server directory
+│   └── uploads/            # Files uploaded by clients
+├── src/
+│   ├── configs/            # Application settings (e.g. logger)
+│   ├── controllers/        # Request handlers
+│   ├── middlewares/        # Express custom middlewares (Auth, Errors)
+│   ├── models/             # Mongoose schemas (User, Conversation, Message)
+│   ├── routes/             # REST route routing
+│   ├── services/           # Service-level query logic
+│   ├── utils/              # Helper utility functions
+│   ├── app.js              # Express configuration & setup
+│   ├── index.js            # Main entry point (HTTP & Sockets)
+│   └── SocketServer.js     # Real-time WebSocket connection engine
+├── .env                    # Secrets & local config values
+├── package.json            # Project dependencies and runs
+└── README.md               # Documentation guide
 ```
