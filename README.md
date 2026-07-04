@@ -4,7 +4,6 @@
 [![Express](https://img.shields.io/badge/Express-v4.18-000000?logo=express&logoColor=white)](https://expressjs.com/)
 [![MongoDB](https://img.shields.io/badge/MongoDB-v7.0-47A248?logo=mongodb&logoColor=white)](https://www.mongodb.com/)
 [![Socket.io](https://img.shields.io/badge/Socket.io-v4.6-010101?logo=socket.io&logoColor=white)](https://socket.io/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 A robust, real-time backend engine powering a WhatsApp Web application. This server handles HTTP REST APIs for user management, authentication, conversations, and direct messaging, alongside WebRTC signaling and real-time event distribution (like typing indicators, online status, and live messaging) via Socket.io.
 
@@ -17,32 +16,32 @@ The server adopts a clean MERN-stack backend architecture separating concerns in
 ```mermaid
 graph TD
     Client["Frontend Client (React/Next.js)"]
-    
+
     subgraph ExpressApp ["Express.js Server"]
         Router["Router Layer (/api/v1)"]
         Controllers["Controllers (Request Handlers)"]
         Services["Services (Business Logic)"]
         Middlewares["Middlewares (Auth, Errors, Uploads)"]
     end
-    
+
     subgraph Sockets ["Socket.io Server (Real-time)"]
         SocketServer["Socket Events Handler"]
     end
-    
+
     subgraph Data ["Database Layer"]
         Mongoose["Mongoose ODM"]
         MongoDB[("MongoDB Database")]
     end
-    
+
     Client -->|REST APIs| Router
     Router --> Middlewares
     Middlewares --> Controllers
     Controllers --> Services
     Services --> Mongoose
-    
+
     Client <==>|WebSockets & WebRTC Signaling| SocketServer
     SocketServer --> Mongoose
-    
+
     Mongoose --> MongoDB
 ```
 
@@ -58,7 +57,7 @@ sequenceDiagram
     actor ClientA as (Client A)
     participant Server as Socket.io Server
     actor ClientB as (Client B)
-    
+
     Note over ClientA, Server: Connection Setup
     ClientA->>Server: join(userId)
     Server-->>Server: Add ClientA to online list
@@ -68,10 +67,10 @@ sequenceDiagram
     Note over ClientA, ClientB: Real-time Communication
     ClientA->>Server: typing(conversationId)
     Server->>ClientB: typing(conversationId)
-    
+
     ClientA->>Server: send message(messageData)
     Server->>ClientB: receive message(messageData)
-    
+
     ClientA->>Server: stop typing(conversationId)
     Server->>ClientB: stop typing()
 
@@ -80,7 +79,7 @@ sequenceDiagram
     Server->>ClientB: call user (signal, from, name)
     ClientB->>Server: answer call (to ClientA, signal)
     Server->>ClientA: call accepted (signal)
-    
+
     ClientA->>Server: end call (room ID)
     Server->>ClientB: end call()
 ```
@@ -136,12 +135,12 @@ erDiagram
 
 ## Key Features
 
-*   **Secure Authentication**: JSON Web Tokens (JWT) for session management and token verification. Hashed password storage with `bcrypt`.
-*   **Real-Time Synchronization**: Instantly sync messages, active/offline status, and live typing indicators.
-*   **Audio/Video Signaling**: WebRTC handshake signaling facilitated over WebSockets for seamless peer-to-peer calling.
-*   **File & Media Uploads**: Safe handling of multi-media payloads (images, documents, audio) with native unique file suffix naming.
-*   **Production-Grade Protection**: Includes standard security filters such as cross-origin resource isolation (`helmet`), NoSQL injection prevention (`express-mongo-sanitize`), CORS restrictions, request trimming, and response compression.
-*   **Robust Logging**: Integrated logging suite powered by `winston` for error debugging and terminal information.
+- **Secure Authentication**: JSON Web Tokens (JWT) for session management and token verification. Hashed password storage with `bcrypt`.
+- **Real-Time Synchronization**: Instantly sync messages, active/offline status, and live typing indicators.
+- **Audio/Video Signaling**: WebRTC handshake signaling facilitated over WebSockets for seamless peer-to-peer calling.
+- **File & Media Uploads**: Safe handling of multi-media payloads (images, documents, audio) with native unique file suffix naming.
+- **Production-Grade Protection**: Includes standard security filters such as cross-origin resource isolation (`helmet`), NoSQL injection prevention (`express-mongo-sanitize`), CORS restrictions, request trimming, and response compression.
+- **Robust Logging**: Integrated logging suite powered by `winston` for error debugging and terminal information.
 
 ---
 
@@ -149,39 +148,39 @@ erDiagram
 
 ### Authentication Routes (`/api/v1/auth`)
 
-| Method | Endpoint | Description | Protected |
-| :--- | :--- | :--- | :---: |
-| `POST` | `/register` | Register a new user profile | No |
-| `POST` | `/login` | User authentication & retrieve tokens | No |
-| `POST` | `/logout` | Invalidate current session tokens | No |
-| `POST` | `/refreshtoken` | Exchange expired token for a new active token | No |
+| Method | Endpoint        | Description                                   | Protected |
+| :----- | :-------------- | :-------------------------------------------- | :-------: |
+| `POST` | `/register`     | Register a new user profile                   |    No     |
+| `POST` | `/login`        | User authentication & retrieve tokens         |    No     |
+| `POST` | `/logout`       | Invalidate current session tokens             |    No     |
+| `POST` | `/refreshtoken` | Exchange expired token for a new active token |    No     |
 
 ### User Routes (`/api/v1/user`)
 
-| Method | Endpoint | Description | Protected |
-| :--- | :--- | :--- | :---: |
-| `GET` | `?search=query` | Find users by name or email | Yes |
+| Method | Endpoint        | Description                 | Protected |
+| :----- | :-------------- | :-------------------------- | :-------: |
+| `GET`  | `?search=query` | Find users by name or email |    Yes    |
 
 ### Conversation Routes (`/api/v1/conversation`)
 
-| Method | Endpoint | Description | Protected |
-| :--- | :--- | :--- | :---: |
-| `POST` | `/` | Open direct message or create group | Yes |
-| `GET` | `/` | Fetch all conversations user is a part of | Yes |
-| `POST` | `/group` | Create a new group chat room | Yes |
+| Method | Endpoint | Description                               | Protected |
+| :----- | :------- | :---------------------------------------- | :-------: |
+| `POST` | `/`      | Open direct message or create group       |    Yes    |
+| `GET`  | `/`      | Fetch all conversations user is a part of |    Yes    |
+| `POST` | `/group` | Create a new group chat room              |    Yes    |
 
 ### Message Routes (`/api/v1/message`)
 
-| Method | Endpoint | Description | Protected |
-| :--- | :--- | :--- | :---: |
-| `POST` | `/` | Send a new message to a conversation | Yes |
-| `GET` | `/:convo_id` | Fetch all message history for a specific room | Yes |
+| Method | Endpoint     | Description                                   | Protected |
+| :----- | :----------- | :-------------------------------------------- | :-------: |
+| `POST` | `/`          | Send a new message to a conversation          |    Yes    |
+| `GET`  | `/:convo_id` | Fetch all message history for a specific room |    Yes    |
 
 ### Upload Routes (`/api/v1/upload`)
 
-| Method | Endpoint | Description | Protected |
-| :--- | :--- | :--- | :---: |
-| `POST` | `/` | Upload a file / media asset | Yes |
+| Method | Endpoint | Description                 | Protected |
+| :----- | :------- | :-------------------------- | :-------: |
+| `POST` | `/`      | Upload a file / media asset |    Yes    |
 
 ---
 
@@ -219,19 +218,21 @@ DEFAULT_GROUP_PICTURE=https://res.cloudinary.com/example/default_group_pic.png
 
 ### Prerequisites
 
-*   NodeJS (v18 or higher recommended)
-*   Yarn or NPM
-*   MongoDB Atlas or a local MongoDB database
+- NodeJS (v18 or higher recommended)
+- Yarn or NPM
+- MongoDB Atlas or a local MongoDB database
 
 ### Installation
 
 1. **Clone the repository:**
+
    ```bash
    git clone https://github.com/your-username/whatsapp-clone-backend.git
    cd whatsapp-clone-backend
    ```
 
 2. **Install all dependencies:**
+
    ```bash
    yarn install
    # or
@@ -242,18 +243,18 @@ DEFAULT_GROUP_PICTURE=https://res.cloudinary.com/example/default_group_pic.png
    Rename `.env.example` to `.env` or create `.env` manually, using the key-value guidelines above.
 
 4. **Start the server:**
-   *   **Development mode** (runs with nodemon):
-       ```bash
-       yarn dev
-       # or
-       npm run dev
-       ```
-   *   **Production mode**:
-       ```bash
-       yarn start
-       # or
-       npm start
-       ```
+   - **Development mode** (runs with nodemon):
+     ```bash
+     yarn dev
+     # or
+     npm run dev
+     ```
+   - **Production mode**:
+     ```bash
+     yarn start
+     # or
+     npm start
+     ```
 
 ---
 
